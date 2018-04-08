@@ -2,6 +2,18 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "build watcher",
+            "type": "shell",
+            "command": "sampctl package build --watch",
+            "group": "build",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": "$sampctl"
+        },
+        {
             "label": "build only",
             "type": "shell",
             "command": "sampctl package build",
@@ -10,18 +22,6 @@
                 "isDefault": true
             },
             "isBackground": false,
-            "presentation": {
-                "reveal": "silent",
-                "panel": "dedicated"
-            },
-            "problemMatcher": "$sampctl"
-        },
-        {
-            "label": "build watcher",
-            "type": "shell",
-            "command": "sampctl package build --watch",
-            "group": "build",
-            "isBackground": true,
             "presentation": {
                 "reveal": "silent",
                 "panel": "dedicated"

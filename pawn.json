@@ -6,15 +6,16 @@
 	"dependencies": [
 		"sampctl/samp-stdlib",
 		"pawn-lang/YSI-Includes",
-		"Zeex/amx_assembly",
 		"maddinat0r/sscanf",
 		"Open-GTO/sa-mp-fixes",
-		"Zeex/samp-plugin-crashdetect",
 		"maddinat0r/samp-discord-connector",
-		"Southclaws/progress2",
-		""
+		"Southclaws/progress2"
 	],
 	"runtime": {
-		"mode": "y_testing"
+		"mode": "y_testing",
+		"plugins": [
+			"maddinat0r/sscanf",
+			"Zeex/samp-plugin-crashdetect"
+		]
 	}
 }

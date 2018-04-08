@@ -11,6 +11,8 @@
 #include                <YSI\y_ini>
 #include                <YSI\y_dialog>
 
+#include                <sscanf2>
+
 #undef                  MAX_PLAYERS
 #define                 MAX_PLAYERS                     (10)
 #define                 MAX_USERNAME                    (MAX_PLAYER_NAME + 1)
