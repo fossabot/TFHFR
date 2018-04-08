@@ -3,6 +3,27 @@
 	"repo": "TFHFR",
 	"entry": "gamemodes/tfhfr.pwn",
 	"output": "gamemodes/tfhfr.amx",
+	"runtime": {
+		"version": "0.3.DL",
+		"mode": "y_testing",
+		"gamemodes": [
+			"tfhfr"
+		],
+		"plugins": [
+			"Zeex/samp-plugin-crashdetect",
+			"maddinat0r/sscanf"
+		],
+		"rcon_password": "locale",
+		"port": 7777,
+		"hostname": "The Four Horsemen Project",
+		"maxplayers": 10,
+		"gamemodetext": "Freeroam",
+		"weburl": "www.t4hm.net",
+		"cookielogging": true,
+		"language": "English",
+		"useartwork": true,
+		"artword": "Yes"
+	},
 	"dependencies": [
 		"sampctl/samp-stdlib",
 		"pawn-lang/YSI-Includes",
@@ -11,12 +32,5 @@
 		"maddinat0r/samp-discord-connector",
 		"Southclaws/progress2",
 		"Zeex/samp-plugin-crashdetect"
-	],
-	"runtime": {
-		"mode": "y_testing",
-		"plugins": [
-			"Zeex/samp-plugin-crashdetect",
-			"maddinat0r/sscanf"
-		]
-	}
+	]
 }

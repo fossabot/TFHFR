@@ -280,7 +280,7 @@ public OnPlayerDeath(playerid, killerid, reason){
             case SHOTGUN_WEAPON:{PA[killerid][shotgunkills]++;}
             case RIFLE_WEAPON:{PA[killerid][riflekills]++;}
             case SNIPER_WEAPON:{PA[killerid][sniperkills]++;}
-            case OTHER_WEAPON:{PA{playerid][otherkills]++;}}
+            case OTHER_WEAPON:{PA[playerid][otherkills]++;}
         }
         PA[playerid][deaths]++;
         AccountQuerries(killerid, SAVE_DATA);
