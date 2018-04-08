@@ -10,6 +10,7 @@
 
 #include                <YSI\y_ini>
 #include                <YSI\y_dialog>
+#include                <YSI\y_timers>
 
 #include                <sscanf2>
 
@@ -19,6 +20,7 @@
 #define                 MAX_PASSWORD                    (65)
 #define                 MAX_SALT                        (16)
 #define                 MAX_DATE                        (17 + 1)
+#define                 MAX_VIP                         (3)
 
 #define                 MELEE_WEAPON                    (1001)
 #define                 HANDGUN_WEAPON                  (1002)
@@ -44,7 +46,25 @@ enum account{
     referredby[MAX_USERNAME],
     referralpoints,
     playingtime,
-    dateregistered[MAX_DATE]
+    monthregistered,
+    dateregistered,
+    yearregistered,
+
+    // personal data
+    cash,
+    credits,
+    vip[MAX_VIP],
+    vipexpirymonth,
+    vipexpirydate,
+    vipexpiryyear,
+    vippoints,
+    rewardpoints,
+    frpoints,
+    hitpoints,
+    bool: privileged,
+    privilexpirymonth,
+    privilexpirydate,
+    privilexpiryyear,
 }
 
 enum PlayerFlags:(<<=1){
@@ -57,7 +77,9 @@ enum {
 }
 
 enum {
-    EMPTY, LOGIN, REGISTER, SHORT_REGISTER, REFERRAL_REGISTER, NOREFERRAL_REGISTER
+    EMPTY, LOGIN, REGISTER, SHORT_REGISTER, REFERRAL_REGISTER, NOREFERRAL_REGISTER, EMPTY_FORVIP,
+
+    RANDOM_SPAWN
 }
 
 new 
@@ -88,7 +110,24 @@ AccountQuerries(const playerid, const type){
                 INI_String("Referredby", PA[playerid][referredby]);
                 INI_Int("Referralpoints", PA[playerid][referralpoints]);
                 INI_Int("PlayingTime", PA[playerid][playingtime]);
-                INI_String("DateRegistered", PA[playerid][dateregistered]);
+                INI_Int("MonthReg", PA[playerid][monthregistered]);
+                INI_Int("DateReg", PA[playerid][dateregistered]);
+                INI_Int("YearReg", PA[playerid][yearregistered]);
+            
+                INI_Int("Cash", PA[playerid][cash]);
+                INI_Int("Credits", PA[playerid][credits]);
+                INI_String("VIP", PA[playerid][vip], MAX_VIP);
+                INI_Int("VIPExpiryMonth", PA[playerid][vipexpirymonth]);
+                INI_Int("VIPExpiryDate", PA[playerid][vipexpirydate]);
+                INI_Int("VIPExpiryYear", PA[playerid][vipexpiryyear]);
+                INI_Int("VIPPoints", PA[playerid][vippoints]);
+                INI_Int("Rewardpoints", PA[playerid][rewardpoints]);
+                INI_Int("FRPoints", PA[playerid][frpoints]);
+                INI_Int("hitpoints", PA[playerid][hitpoints]);
+                INI_Bool("Privileged", PA[playerid][privileged]);
+                INI_Int("PrivilExpiryMonth", PA[playerid][privilexpirymonth]);
+                INI_Int("PrivilExpiryDate", PA[playerid][privilexpirydate]);
+                INI_Int("PrivilExpiryYear", PA[playerid][privilexpiryyear]);
             }
             INI_ParseFile(AP(PA[playerid][username]), using inline LoadData);
         }
@@ -97,7 +136,24 @@ AccountQuerries(const playerid, const type){
             new INI:File = INI_Open(AP(PA[playerid][username]));
 
             INI_SetTag(File, "Information");
-            INI_WriteString(File, "DateRegistered", PA[playerid][dateregistered]);
+            INI_WriteInt(File, "PrivilExpiryYear", PA[playerid][privilexpiryyear]);
+            INI_WriteInt(File, "PrivilExpiryDate", PA[playerid][privilexpirydate]);
+            INI_WriteInt(File, "PrivilExpiryMonth", PA[playerid][privilexpirymonth]);
+            INI_WriteBool(File, "Privileged", PA[playerid][privileged]);
+            INI_WriteInt(File, "Hitpoints", PA[playerid][hitpoints]);
+            INI_WriteInt(File, "FRPoints", PA[playerid][frpoints]);
+            INI_WriteInt(File, "Rewardpoints", PA[playerid][rewardpoints]);
+            INI_WriteInt(File, "VIPPoints", PA[playerid][vippoints]);
+            INI_WriteInt(File, "VIPExpiryYear", PA[playerid][vipexpiryyear]);
+            INI_WriteInt(File, "VIPExpiyDate", PA[playerid][vipexpirydate]);
+            INI_WriteInt(File, "VIPExpiryMonth", PA[playerid][vipexpirymonth]);
+            INI_WriteString(File, "VIP", PA[playerid][vip]);
+            INI_WriteInt(File, "Credits", PA[playerid][credits]);
+            INI_WriteInt(File, "Cash", PA[playerid][cash]);
+
+            INI_WriteInt(File, "YearRegistered", PA[playerid][yearregistered]);
+            INI_WriteInt(File, "DateRegistered", PA[playerid][dateregistered]);
+            INI_WriteInt(File, "MonthRegistered", PA[playerid][monthregistered]);
             INI_WriteInt(File, "PlayingTime", PA[playerid][playingtime]);
             INI_WriteInt(File, "Referralpoints", PA[playerid][referralpoints]);
             INI_WriteString(File, "Referredby", PA[playerid][referredby]);
@@ -118,11 +174,16 @@ AccountQuerries(const playerid, const type){
             format(PA[playerid][password], MAX_PASSWORD, "");
             format(PA[playerid][salt], MAX_SALT, "");
             format(PA[playerid][referredby], MAX_USERNAME, "");
-            format(PA[playerid][dateregistered], MAX_DATE, "");
+            format(PA[playerid][vip], MAX_VIP, "");
             PA[playerid][meleekills] = PA[playerid][handgunkills] = PA[playerid][shotgunkills] =
             PA[playerid][smgkills] = PA[playerid][riflekills] = PA[playerid][sniperkills] =
             PA[playerid][deaths] = PA[playerid][skins] = PA[playerid][referralpoints] =
-            PA[playerid][playingtime] = 0;
+            PA[playerid][playingtime] = PA[playerid][cash] = PA[playerid][credits] =
+            PA[playerid][vippoints] = PA[playerid][rewardpoints] = PA[playerid][frpoints] =
+            PA[playerid][hitpoints] = PA[playerid][monthregistered] = PA[playerid][dateregistered] = 
+            PA[playerid][yearregistered] = PA[playerid][vipexpirymonth] = PA[playerid][vipexpirydate] =
+            PA[playerid][vipexpiryyear] = PA[playerid][privilexpirymonth] = PA[playerid][privilexpirydate] = 
+            PA[playerid][privilexpiryyear] = 0;
 
             BitFlag_Off(PF{ playerid }, LOGGED_IN);
         }
@@ -154,7 +215,7 @@ PlayerDialog(playerid, dialog){
                     }
                 }
             }
-            Dialog_ShowCallback(playerid, using inline register, DIALOG_STYLE_PASSWORD, "The Four Horsemen - Registration", "Welcome to The Four Horseman Deathmatch Arena\nRegister your password below to start playing.", "Submit");
+            Dialog_ShowCallback(playerid, using inline register, DIALOG_STYLE_PASSWORD, "The Four Horsemen Project - Registration", "Welcome to The Four Horseman Deathmatch Arena\nRegister your password below to start playing.", "Submit");
         }
         case SHORT_REGISTER:{
             inline register(pid, dialogid, response, listitem, string:inputtext[]){
@@ -169,7 +230,7 @@ PlayerDialog(playerid, dialog){
                     }
                 }
             }
-            Dialog_ShowCallback(playerid, using inline register, DIALOG_STYLE_PASSWORD, "The Four Horsemen - Registration", "Your password is too short.\nPlease retype it and make sure that it is longer than 5 characters and shorter than 13 characters", "Submit");
+            Dialog_ShowCallback(playerid, using inline register, DIALOG_STYLE_PASSWORD, "The Four Horsemen Project- Registration", "Your password is too short.\nPlease retype it and make sure that it is longer than 5 characters and shorter than 13 characters", "Submit");
         }
         case REFERRAL_REGISTER:{
             inline register(pid, dialogid, response, listitem, string:inputtext[]){
@@ -177,18 +238,20 @@ PlayerDialog(playerid, dialog){
                 if(response){
                     format(PA[playerid][referredby], MAX_USERNAME, "%s", inputtext);
                     if(fexist(AP(PA[playerid][referredby]))){
-                        format(PA[playerid][dateregistered], MAX_DATE, "%s", getdate());
+                        getdate(PA[playerid][yearregistered], PA[playerid][monthregistered], PA[playerid][dateregistered]);
                         AccountQuerries(playerid, SAVE_DATA);
+                        doSpawn(playerid, RANDOM_SPAWN);
                     }else{
                         format(PA[playerid][referredby], MAX_USERNAME, "");
                         PlayerDialog(playerid, NOREFERRAL_REGISTER);
                     }
                 }else{
-                    format(PA[playerid][dateregistered], MAX_DATE, "%s", getdate());
+                    getdate(PA[playerid][yearregistered], PA[playerid][monthregistered], PA[playerid][dateregistered]);
                     AccountQuerries(playerid, SAVE_DATA);
+                    doSpawn(playerid, RANDOM_SPAWN);
                 }
             }
-            Dialog_ShowCallback(playerid, using inline register, DIALOG_STYLE_INPUT, "The Four Horseman - Registration", "Please type below who referred you into our server to give them credit", "Submit", "Skip");
+            Dialog_ShowCallback(playerid, using inline register, DIALOG_STYLE_INPUT, "The Four Horsemen Project - Registration", "Please type below who referred you into our server to give them credit", "Submit", "Skip");
         }
         case NOREFERRAL_REGISTER:{
             inline register(pid, dialogid, response, listitem, string:inputtext[]){
@@ -196,18 +259,39 @@ PlayerDialog(playerid, dialog){
                 if(response){
                     format(PA[playerid][referredby], MAX_USERNAME, "%s", inputtext);
                     if(fexist(AP(PA[playerid][referredby]))){
-                        format(PA[playerid][dateregistered], MAX_DATE, "%s", getdate());
+                        getdate(PA[playerid][yearregistered], PA[playerid][monthregistered], PA[playerid][dateregistered]);
                         AccountQuerries(playerid, SAVE_DATA);
+                        doSpawn(playerid, RANDOM_SPAWN);
                     }else{
                         format(PA[playerid][referredby], MAX_USERNAME, "");
                         PlayerDialog(playerid, NOREFERRAL_REGISTER);
                     }
                 }else{
-                    format(PA[playerid][dateregistered], MAX_DATE, "%s", getdate());
+                    getdate(PA[playerid][yearregistered], PA[playerid][monthregistered], PA[playerid][dateregistered]);
                     AccountQuerries(playerid, SAVE_DATA);
+                    doSpawn(playerid, RANDOM_SPAWN);
                 }
             }
-            Dialog_ShowCallback(playerid, using inline register, DIALOG_STYLE_INPUT, "The Four Horseman - Registration", "Our system had not found this user in our system.\nPlease retype and remember that our system is case sensitive.", "Submit", "Skip");
+            Dialog_ShowCallback(playerid, using inline register, DIALOG_STYLE_INPUT, "The Four Horsemen Project - Registration", "Our system had not found this user in our system.\nPlease retype and remember that our system is case sensitive.", "Submit", "Skip");
+        }
+        case LOGIN:{
+            inline login(pid, dialogid, response, listitem, string:inputtext[]){
+                #pragma unused pid, dialogid, listitem
+                if(response){
+                    new ret_pass[MAX_PASSWORD];
+                    SHA256_PassHash(inputtext, PA[playerid][salt], ret_pass, MAX_PASSWORD);
+                    if(strcmp(PA[playerid][password], ret_pass, TRUE) == 0){
+                        doSpawn(playerid, RANDOM_SPAWN);
+                    }
+                }
+            }
+            Dialog_ShowCallback(playerid, using inline login, DIALOG_STYLE_PASSWORD, "The Four Horsemen Project - Login", "Type in your password below so you can start going back to your progress again", "Login");
+        }
+        case EMPTY_FORVIP:{
+            inline empty(pid, dialogid, response, listitem, string:inputtext[]){
+                #pragma unused pid, dialogid, response, listitem, inputtext
+            }
+            Dialog_ShowCallback(playerid, using inline empty, DIALOG_STYLE_MSGBOX, "The Four Horsemen Project - VIP Expired", "Your vip has expired. If you wish to be a vip again. You can use your in-game credits to pay for it", "Close");
         }
     }
     return 1;
@@ -218,6 +302,7 @@ regulatePlayerOnConnect(playerid){
     SpawnPlayer(playerid);
     TogglePlayerSpectating(playerid, true);
     TogglePlayerControllable(playerid, false);
+    SetPlayerScore(playerid, 0);
     return 1;
 }
 
@@ -233,11 +318,54 @@ PlayerWeapon(const weaponid){
     return weapontype;
 }
 
+KillCount(const playerid){
+    new killcount;
+    killcount = PA[playerid][meleekills] + PA[playerid][handgunkills] + PA[playerid][smgkills] + PA[playerid][shotgunkills] +
+    PA[playerid][riflekills] + PA[playerid][sniperkills] + PA[playerid][otherkills];
+    SetPlayerScore(playerid, killcount);
+    return 1;
+}
+
+doSpawn(const playerid, const type){
+    switch(type){
+        case RANDOM_SPAWN:{
+            SetPlayerPos(playerid, 0.0, 0.0, 1.0);
+            TogglePlayerSpectating(playerid, FALSE);
+            TogglePlayerControllable(playerid, FALSE);
+            doPlayerCheck(playerid);
+            KillCount(playerid);
+        }
+    }
+    return 1;
+}
+
+doPlayerCheck(const playerid){
+    if(strcmp(PA[playerid][vip], "NV", TRUE) != 0){
+        new d, m, y, expired;
+        getdate(y, m, d);
+        if(PA[playerid][vipexpiryyear] > y){
+            expired = 1;
+        }else if(PA[playerid][vipexpiryyear] == y){
+            if(PA[playerid][vipexpirymonth] > m){
+                expired = 1;
+            }else if(PA[playerid][vipexpirymonth] == m){
+                if(PA[playerid][vipexpirydate] >= d){
+                    expired = 1;
+                }
+            }
+        }
+        if(expired == 1){
+            format(PA[playerid][vip], MAX_VIP, "NV");
+            PlayerDialog(playerid, EMPTY_FORVIP);
+        }
+    }
+    return 1;
+}
+
 main(){}
 
 public OnGameModeInit(){
     UsePlayerPedAnims();
-    EnableStuntBonusForAll(0);
     DisableInteriorEnterExits();
     return 1;
 }
@@ -285,6 +413,30 @@ public OnPlayerDeath(playerid, killerid, reason){
         PA[playerid][deaths]++;
         AccountQuerries(killerid, SAVE_DATA);
         AccountQuerries(playerid, SAVE_DATA);
+        KillCount(playerid);
+    }
+    return 1;
+}
+
+task regularcheck[300000]()
+{
+    foreach(new playerid : Player){
+        if(BitFlag_Get(PF{ playerid }, LOGGED_IN)){
+            doPlayerCheck(playerid);
+            KillCount(playerid);
+            AccountQuerries(playerid, SAVE_DATA);
+        }
+    }
+    return 1;
+}
+
+task hourlycheck[3600000]()
+{
+    foreach(new playerid : Player){
+        if(BitFlag_Get(PF{ playerid }, LOGGED_IN)){
+            PA[playerid][playingtime]++;
+            AccountQuerries(playerid, SAVE_DATA);
+        }
     }
     return 1;
 }

@@ -20,9 +20,7 @@
 		"gamemodetext": "Freeroam",
 		"weburl": "www.t4hm.net",
 		"cookielogging": true,
-		"language": "English",
-		"useartwork": true,
-		"artword": "Yes"
+		"language": "English"
 	},
 	"dependencies": [
 		"sampctl/samp-stdlib",
