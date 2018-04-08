@@ -38,6 +38,7 @@ enum account{
     smgkills,
     riflekills,
     sniperkills,
+    otherkills,
     deaths,
     skins,
     referredby[MAX_USERNAME],
@@ -222,7 +223,13 @@ regulatePlayerOnConnect(playerid){
 
 PlayerWeapon(const weaponid){
     new weapontype;
-    if(weaponid >= 0 && weaponid <= 15){weapontype = MELEE_WEAPON;}
+    if(weaponid >= 0 && weaponid <= 15) weapontype = MELEE_WEAPON;
+    else if(weaponid >= 22 && weaponid <= 24) weapontype = HANDGUN_WEAPON;
+    else if(weaponid >= 25 && weaponid <= 27) weapontype = SHOTGUN_WEAPON;
+    else if(weaponid >= 28 && weaponid <= 29 || weaponid == 32) weapontype = SMG_WEAPON;
+    else if(weaponid >= 30 && weaponid <= 31) weapontype = RIFLE_WEAPON;
+    else if(weaponid >= 33 && weaponid <= 34) weapontype = SNIPER_WEAPON;
+    else weapontype = OTHER_WEAPON;
     return weapontype;
 }
 
@@ -232,7 +239,6 @@ public OnGameModeInit(){
     UsePlayerPedAnims();
     EnableStuntBonusForAll(0);
     DisableInteriorEnterExits();
-    SetGameModeText("Deathmatch Arena");
     return 1;
 }
 
@@ -268,10 +274,17 @@ public OnPlayerDisconnect(playerid, reason){
 public OnPlayerDeath(playerid, killerid, reason){
     if(killerid != INVALID_PLAYER_ID){
         switch(PlayerWeapon(reason)){
-            case MELEE_WEAPON:{
-
-            }
+            case MELEE_WEAPON:{PA[killerid][meleekills]++;}
+            case HANDGUN_WEAPON:{PA[killerid][handgunkills]++;}
+            case SMG_WEAPON:{PA[killerid][smgkills]++;}
+            case SHOTGUN_WEAPON:{PA[killerid][shotgunkills]++;}
+            case RIFLE_WEAPON:{PA[killerid][riflekills]++;}
+            case SNIPER_WEAPON:{PA[killerid][sniperkills]++;}
+            case OTHER_WEAPON:{PA{playerid][otherkills]++;}}
         }
+        PA[playerid][deaths]++;
+        AccountQuerries(killerid, SAVE_DATA);
+        AccountQuerries(playerid, SAVE_DATA);
     }
     return 1;
 }

@@ -1,21 +1,22 @@
 {
 	"user": "JesterlJoker",
 	"repo": "TFHFR",
-	"entry": "tfhfr.pwn",
-	"output": "tfhfr.amx",
+	"entry": "gamemodes/tfhfr.pwn",
+	"output": "gamemodes/tfhfr.amx",
 	"dependencies": [
 		"sampctl/samp-stdlib",
 		"pawn-lang/YSI-Includes",
 		"maddinat0r/sscanf",
 		"Open-GTO/sa-mp-fixes",
 		"maddinat0r/samp-discord-connector",
-		"Southclaws/progress2"
+		"Southclaws/progress2",
+		"Zeex/samp-plugin-crashdetect"
 	],
 	"runtime": {
 		"mode": "y_testing",
 		"plugins": [
-			"maddinat0r/sscanf",
-			"Zeex/samp-plugin-crashdetect"
+			"Zeex/samp-plugin-crashdetect",
+			"maddinat0r/sscanf"
 		]
 	}
 }
