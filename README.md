@@ -1,59 +1,38 @@
-# TFHFR
+# The Four Horsemen SA-MP projects #
 
-[![sampctl](https://shields.southcla.ws/badge/sampctl-TFHFR-2f2f2f.svg?style=for-the-badge)](https://github.com/JesterlJoker/TFHFR)
+Freeroam
+![Progress](http://progressed.io/bar/0?title=Working)
 
-> Short description of your library, why it's useful, some examples, pictures or
-> videos. Link to your forum release thread too.
->
-> Remember: You can use "forumfmt" to convert this readme to forum BBCode!
->
-> What the sections below should be used for:
->
-> `## Installation`: Leave this section un-edited unless you have some specific
-> additional installation procedure.
->
-> `## Testing`: Whether your library is tested with a simple `main()` and
-> `print`, unit-tested, or demonstrated via prompting the player to connect, you
-> should include some basic information for users to try out your code in some
-> way.
->
-> And finally, maintaining your version number`:
->
-> * Follow [Semantic Versioning](https://semver.org/)
-> * When you release a new version, update `VERSION` and `git tag` it
-> * Versioning is important for sampctl to use the version control features
->
-> Happy Pawning!
+Roleplay
+![Progress](http://progressed.io/bar/0?title=Working)
 
-## Installation
+Battle Royal
+![Progress](http://progressed.io/bar/0?title=Working)
 
-Simply install to your project:
+Cops and Robbers
+![Progress](http://progressed.io/bar/0?title=Working)
 
-```bash
-sampctl package install JesterlJoker/TFHFR
-```
+### PLANS ###
 
-Include in your code and begin using the library:
+- To finish Deathmatch Arena and proceed to roleplay
 
-```pawn
-#include <TFHFR>
-```
+### Who contributes in finishing the project? ###
 
-## Usage
+- JesterlJoker
 
-> Write your code documentation or examples here. If your library is documented
-> in the source code, direct users there. If not, list your API and describe it
-> well in this section. If your library is passive and has no API, simply omit
-> this section.
+### How can I contribute? ###
 
-## Testing
+- Ask the above mentioned contributors
 
-> Depending on whether your package is tested via in-game "demo tests" or
-> y_testing unit-tests, you should indicate to readers what to expect below
-> here.
+### Why is this a thing? ###
+- Just for fun 
 
-To test, simply run the package:
+# #
+    If you wish to help contact me 
+    @ https://web.facebook.com/earltacs
+    or you can also contact me
+    @ https://twitter.com/GamingPearl
 
-```bash
-sampctl package run
-```
+    And finally before asking why The Four Horsemen when you are literally alone.
+
+    It's just because I am the only one who knows how to do SA-MP. They are mostly in tune with python and Web Development, I am the one who strayed.
