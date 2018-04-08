@@ -1,7 +1,9 @@
 # The Four Horsemen SA-MP projects #
 
+[![Build Status](https://travis-ci.org/JesterlJoker/TFHFR.svg?branch=master)](https://travis-ci.org/JesterlJoker/TFHFR)
+
 Freeroam
-![Progress](http://progressed.io/bar/0?title=Working)
+![Progress](http://progressed.io/bar/1?title=Working)
 
 Roleplay
 ![Progress](http://progressed.io/bar/0?title=Working)
