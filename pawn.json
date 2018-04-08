@@ -8,7 +8,11 @@
 		"pawn-lang/YSI-Includes",
 		"Zeex/amx_assembly",
 		"maddinat0r/sscanf",
-		"Open-GTO/sa-mp-fixes"
+		"Open-GTO/sa-mp-fixes",
+		"Zeex/samp-plugin-crashdetect",
+		"maddinat0r/samp-discord-connector",
+		"Southclaws/progress2",
+		""
 	],
 	"runtime": {
 		"mode": "y_testing"
