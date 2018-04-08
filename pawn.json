@@ -1,0 +1,16 @@
+{
+	"user": "JesterlJoker",
+	"repo": "TFHFR",
+	"entry": "tfhfr.pwn",
+	"output": "tfhfr.amx",
+	"dependencies": [
+		"sampctl/samp-stdlib",
+		"pawn-lang/YSI-Includes",
+		"Zeex/amx_assembly",
+		"maddinat0r/sscanf",
+		"Open-GTO/sa-mp-fixes"
+	],
+	"runtime": {
+		"mode": "y_testing"
+	}
+}
