@@ -5,7 +5,7 @@
 	"output": "gamemodes/tfhfr.amx",
 	"runtime": {
 		"version": "0.3.DL",
-		"mode": "y_testing",
+		"mode": "main",
 		"gamemodes": [
 			"tfhfr"
 		],

@@ -319,10 +319,8 @@ PlayerWeapon(const weaponid){
 }
 
 KillCount(const playerid){
-    new killcount;
-    killcount = PA[playerid][meleekills] + PA[playerid][handgunkills] + PA[playerid][smgkills] + PA[playerid][shotgunkills] +
-    PA[playerid][riflekills] + PA[playerid][sniperkills] + PA[playerid][otherkills];
-    SetPlayerScore(playerid, killcount);
+    SetPlayerScore(playerid, PA[playerid][meleekills] + PA[playerid][handgunkills] + PA[playerid][smgkills] + PA[playerid][shotgunkills] +
+    PA[playerid][riflekills] + PA[playerid][sniperkills] + PA[playerid][otherkills]);
     return 1;
 }
 
