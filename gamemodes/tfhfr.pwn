@@ -45,7 +45,7 @@ public OnPlayerConnect(playerid){
     }else{PlayerDialog(playerid, REGISTER);}
     if(GetPlayerPoolSize() > SA[mostonline]){
         SA[mostonline] = GetPlayerPoolSize();
-        ServerQuery(SAVE_DATA;        
+        ServerQuery(SAVE_DATA);       
     }
     return 1;
 }
@@ -74,7 +74,7 @@ public OnPlayerDeath(playerid, killerid, reason){
         AccountQuerries(killerid, SAVE_DATA);
         AccountQuerries(playerid, SAVE_DATA);
         KillCount(playerid);
-        ServerQuery(SAVE_DATA;        
+        ServerQuery(SAVE_DATA);      
     }
     return 1;
 }

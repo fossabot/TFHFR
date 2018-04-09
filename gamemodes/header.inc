@@ -383,10 +383,10 @@ ServerQuery(const type){
                 INI_Int("LaunchDate", SA[launchdate]);
                 INI_Int("LaunchYear", SA[launchyear]);
             }
-            INI_ParseFile(SERVER_INFO, using inline load);
+            INI_ParseFile(INFO_PATH, using inline load);
         }
         case EMPTY_DATA:{
-            SA[mostonline] = SA[fatality] = SA[launchmonth] =
+            SA[mostonline] = SA[serverfatality] = SA[launchmonth] =
             SA[launchdate] = SA[launchyear] = 0;
         }
     }
